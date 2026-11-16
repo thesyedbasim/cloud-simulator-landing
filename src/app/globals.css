@@ -82,7 +82,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; letter-spac
 /* buttons: flat, square, one solid colour; a slight darken on hover */
 .key { display: inline-block; text-decoration: none; cursor: pointer; --key-face: var(--bp-accent); --key-ink: #fff; }
 .key-face {
-  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem; white-space: nowrap;
   background: var(--key-face); color: var(--key-ink); font-weight: 500;
   transition: filter var(--dur-base) var(--ease-out);
 }

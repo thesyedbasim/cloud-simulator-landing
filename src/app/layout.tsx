@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-export const viewport: Viewport = { themeColor: '#f2f6fb' }
+export const viewport: Viewport = { themeColor: '#ebebe9' }
 
 /** Structured data: tells search engines (and AI tools) what this is. Static, rendered into the HTML. */
 const jsonLd = {
