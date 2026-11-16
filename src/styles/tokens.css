@@ -1,0 +1,25 @@
+/* Design tokens, copied verbatim from the app (app/src/styles/tokens.css).
+   Keep these in sync with the app: same colours, radii, timings and easing, so the two feel like one product.
+   The status colours keep their meaning here too: green, amber and red only ever mean healthy, strained, failed. */
+:root {
+  color-scheme: light;
+  --bp-bg: #f2f6fb;        /* drafting paper */
+  --bp-surface: #ffffff;
+  --bp-grid: #3a7bd5;
+  --bp-line: #1f4f8a;      /* ink */
+  --bp-text: #10243e;
+  --bp-text-dim: #5a7089;
+  --bp-accent: #0b7fd1;
+
+  --status-healthy: #12a36a;
+  --status-strained: #d98a0b;
+  --status-failed: #d93b3b;
+
+  --radius-control: 6px;
+  --radius-panel: 10px;
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
