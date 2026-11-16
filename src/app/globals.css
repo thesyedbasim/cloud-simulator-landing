@@ -64,3 +64,10 @@ body {
   .js .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* walkthrough: scene changes cross-fade so a step change is noticeable but calm */
+.wt-in { animation: wt-fade-in 420ms var(--ease-out) both; }
+.wt-out { animation: wt-fade-out 300ms ease-in both; }
+@keyframes wt-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes wt-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .wt-in, .wt-out { animation: none; } .wt-out { display: none; } }

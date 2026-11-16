@@ -156,6 +156,8 @@ const VH_PER_STEP = 70 // vertical scroll spent on each step
 
 export function Walkthrough() {
   const [i, setI] = useState(0)
+  const [prev, setPrev] = useState<number | null>(null)
+  const last = useRef(0)
   const track = useRef<HTMLDivElement>(null)
 
   /** The section is a tall track with a sticky stage. Scroll progress through the track picks the step. */
@@ -190,8 +192,22 @@ export function Walkthrough() {
     return () => removeEventListener('hashchange', fromHash)
   }, [])
 
+  /** On a step change, the old scene stays for a moment and fades out while the new one fades in. */
+  useEffect(() => {
+    if (last.current === i) return
+    setPrev(last.current); last.current = i
+    const t = setTimeout(() => setPrev(null), 420)
+    return () => clearTimeout(t)
+  }, [i])
+
   const scene = SCENES[i]
-  const { body, css } = useMemo(() => compile(scene), [scene])
+  const compiled = useMemo(() => SCENES.map(compile), [])
+  const layer = (n: number, cls: string) => (
+    <svg key={`${n}-${cls}`} viewBox={`${FRAME.x} ${FRAME.y} ${FRAME.w} ${FRAME.h}`} className={`${cls} pointer-events-none absolute inset-0 h-full w-full`} aria-hidden>
+      <style>{compiled[n].css}</style>
+      {compiled[n].body}
+    </svg>
+  )
 
   return (
     <section id="how-it-works">
@@ -207,7 +223,7 @@ export function Walkthrough() {
                     <a href={`#how-it-works-${n + 1}`} onClick={(e) => { e.preventDefault(); goTo(n) }} aria-current={n === i ? 'step' : undefined}
                       className={`block border-l-2 py-2 pl-4 transition-colors duration-[var(--dur-base)] ${n === i ? 'border-accent' : 'border-line/10 text-dim hover:text-text'}`}>
                       <span className={`font-medium ${n === i ? 'text-text' : ''}`}>{s.title}</span>
-                      {n === i && <span className="mt-1 block text-[15px] leading-relaxed text-dim">{s.body}</span>}
+                      {n === i && <span className="wt-in mt-1 block text-[15px] leading-relaxed text-dim">{s.body}</span>}
                     </a>
                   </li>
                 ))}
@@ -217,10 +233,8 @@ export function Walkthrough() {
               <div className="panel-solid iso-grid overflow-hidden">
                 <div className="relative" style={{ aspectRatio: `${FRAME.w} / ${FRAME.h}` }}>
                   <IsoDesign design={LINK_SHORTENER} frame={FRAME} labels packets className="absolute inset-0 h-full w-full" title="Animated walkthrough of CloudSim: it opens a design, runs a traffic spike, reads the bottleneck, scales it up and finds the capacity limit." />
-                  <svg key={i} viewBox={`${FRAME.x} ${FRAME.y} ${FRAME.w} ${FRAME.h}`} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
-                    <style>{css + `@media (prefers-reduced-motion: reduce){[class^="wt-"]{animation:none!important;opacity:1!important}}`}</style>
-                    {body}
-                  </svg>
+                  {prev !== null && layer(prev, 'wt-out')}
+                  {layer(i, 'wt-in')}
                 </div>
               </div>
               <p className="mt-4 text-[16px] leading-relaxed text-dim lg:hidden"><strong className="font-medium text-text">{scene.title}.</strong> {scene.body}</p>
