@@ -9,7 +9,7 @@ export function UseCases() {
   return (
     <section id="use-cases" className="border-y border-line/10 bg-surface/60 py-20 sm:py-24">
       <Container>
-        <Reveal><SectionHead eyebrow="What is it for?" title="Diagrams show what is connected. CloudSim shows how it behaves." body="A design with a load balancer, a cache and a replica looks resilient until real traffic exposes a slow query, an exhausted connection pool or a retry storm. Here is what that is useful for." /></Reveal>
+        <Reveal><SectionHead title="Diagrams show what is connected. CloudSim shows how it behaves." body="A design with a load balancer, a cache and a replica looks resilient until real traffic exposes a slow query, an exhausted connection pool or a retry storm. Here is what that is useful for." /></Reveal>
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {USE_CASES.map((u, i) => {
             const Icon = ICONS[u.icon]

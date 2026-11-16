@@ -189,7 +189,7 @@ export function Walkthrough() {
   return (
     <section id="how-it-works" ref={root} className="py-20 sm:py-28">
       <Container>
-        <SectionHead eyebrow="How it works" title="Open it, break it, understand it, fix it." body="This is the real workflow, six steps long. Nothing here is a mock-up of a feature that does not exist." />
+        <SectionHead title="Open it, break it, understand it, fix it." body="This is the real workflow, six steps long. Nothing here is a mock-up of a feature that does not exist." />
         <div className="mt-12 grid gap-8 lg:grid-cols-[320px_1fr]">
           <ol className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible" aria-label="Walkthrough steps">
             {SCENES.map((s, n) => (

@@ -7,7 +7,7 @@ export function Honesty() {
   return (
     <section id="model" className="py-20 sm:py-28">
       <Container>
-        <Reveal><SectionHead eyebrow="How honest is it?" title="Simplified on purpose, and it shows its work." body="A model you cannot inspect is a model you should not trust. Everything CloudSim assumes is written down." /></Reveal>
+        <Reveal><SectionHead title="Simplified on purpose, and it shows its work." body="A model you cannot inspect is a model you should not trust. Everything CloudSim assumes is written down." /></Reveal>
         <div className="mt-12 grid gap-5 lg:grid-cols-[1.4fr_1fr]">
           <ul className="grid gap-5 sm:grid-cols-2">
             {HONESTY.map((h, i) => (

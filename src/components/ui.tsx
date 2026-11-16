@@ -6,11 +6,10 @@ export const Container = ({ children, className = '' }: { children: ReactNode; c
   <div className={`mx-auto w-full max-w-[1180px] px-4 sm:px-8 ${className}`}>{children}</div>
 )
 
-export function SectionHead({ eyebrow, title, body, className = '' }: { eyebrow: string; title: string; body?: string; className?: string }) {
+export function SectionHead({ title, body, className = '' }: { title: string; body?: string; className?: string }) {
   return (
     <header className={`max-w-2xl ${className}`}>
-      <p className="label">{eyebrow}</p>
-      <h2 className="mt-3 text-[2rem] font-semibold leading-[1.15] tracking-tight sm:text-[2.5rem]">{title}</h2>
+      <h2 className="text-[2rem] font-semibold leading-[1.15] tracking-tight sm:text-[2.5rem]">{title}</h2>
       {body && <p className="mt-4 text-lg text-dim">{body}</p>}
     </header>
   )

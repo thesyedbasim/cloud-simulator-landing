@@ -51,12 +51,3 @@ export const HONESTY = [
   { title: 'Deterministic and tested', body: 'The simulation uses no randomness, and the engine, the analysis and the file format are covered by automated tests, so the same design gives the same result.' },
 ] as const
 
-export const FAQ = [
-  { q: 'Is CloudSim free?', a: 'Yes. There is nothing to buy and no plan to choose.' },
-  { q: 'Do I need an account?', a: 'No. There is no sign-up and no login. Open it and start.' },
-  { q: 'Does it connect to my cloud account?', a: 'No. Nothing is read from or written to any cloud provider. It models generic components such as load balancers, servers, databases, caches and queues.' },
-  { q: 'How accurate is it?', a: 'It is a deliberately small model meant to make behaviour visible. It is good for understanding why a design fails and comparing options, and it is not a substitute for real load testing or production monitoring.' },
-  { q: 'How is it different from a diagramming tool?', a: 'A diagram shows what is connected. CloudSim shows how it behaves: every component carries traffic, saturates, fails and costs money while you watch.' },
-  { q: 'Where is my data stored?', a: 'In your browser only. Designs autosave locally and you can export and import them as a single file.' },
-  { q: 'Can I share a design?', a: 'Yes. Export it as a project file, or export the canvas as an image.' },
-] as const
