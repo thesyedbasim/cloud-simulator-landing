@@ -25,7 +25,7 @@ function Connection({ pts, delay = 0, packets = true, rate = 1 }: { pts: Pt[]; d
       <polygon points={tri.map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')} fill="var(--bp-line)" fillOpacity={0.7} />
       {packets && [0, 1, 2].map((i) => (
         <circle key={i} r={2.2} fill="var(--bp-accent)" fillOpacity={0.95}>
-          <animateMotion dur={`${(3.4 / rate).toFixed(2)}s`} begin={`${(delay + i * (1.13 / rate)).toFixed(2)}s`} repeatCount="indefinite" path={d} />
+          <animateMotion dur={`${(3.4 / rate).toFixed(2)}s`} begin={`-${(delay + i * (1.13 / rate)).toFixed(2)}s`} repeatCount="indefinite" path={d} />
         </circle>
       ))}
     </g>
