@@ -23,7 +23,7 @@ const VIGNETTES: Record<string, () => ReactNode> = {
     <>
       <polygon className="v-warn" points="100,98 140,78 180,98 140,118" fill="var(--status-failed)" fillOpacity={0.14} stroke="var(--status-failed)" strokeWidth={1.5} />
       <S x={140} y={78}><Art c={comp('appServers', { vcpu: 4 })} /></S>
-      <g className="v-badge">
+      <g>
         <rect x={104} y={6} width={72} height={16} rx={8} fill="var(--status-failed)" />
         <text x={140} y={17.5} textAnchor="middle" fontSize={8.5} letterSpacing={0.8} fill="#fff" {...mono}>BOTTLENECK</text>
       </g>
