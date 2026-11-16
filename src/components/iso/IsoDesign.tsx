@@ -37,12 +37,14 @@ function Connection({ pts, delay = 0, packets = true, rate = 1 }: { pts: Pt[]; d
  * so it is in the HTML. Packets use SVG animation, which costs no JavaScript.
  */
 export function IsoDesign({
-  design, status = {}, packets = true, labels = true, stats = {}, className, overlay, frame, title,
+  design, status = {}, packets = true, labels = true, labelScale = 1, stats = {}, className, overlay, frame, title,
 }: {
   design: Design
   status?: Record<string, Status>
   packets?: boolean
   labels?: boolean
+  /** Multiplies label text size; use below 1 where the diagram is drawn large. */
+  labelScale?: number
   /** Small line under each name, e.g. "60%". */
   stats?: Record<string, string>
   className?: string
@@ -68,8 +70,8 @@ export function IsoDesign({
             <Art c={c} />
             {labels && (
               <g textAnchor="middle" fontFamily="var(--font-mono)">
-                <text x={base.x} y={base.y + 16} fontSize={10} letterSpacing={1} fill="var(--bp-text-dim)">{c.name.toUpperCase()}</text>
-                {stats[c.id] && <text x={base.x} y={base.y + 28} fontSize={8} letterSpacing={0.4} fill={status[c.id] && status[c.id] !== 'healthy' ? STATUS[status[c.id]] : 'var(--bp-text-dim)'}>{stats[c.id]}</text>}
+                <text x={base.x} y={base.y + 16} fontSize={10 * labelScale} letterSpacing={labelScale} fill="var(--bp-text-dim)">{c.name.toUpperCase()}</text>
+                {stats[c.id] && <text x={base.x} y={base.y + 16 + 12 * labelScale} fontSize={8 * labelScale} letterSpacing={0.4 * labelScale} fill={status[c.id] && status[c.id] !== 'healthy' ? STATUS[status[c.id]] : 'var(--bp-text-dim)'}>{stats[c.id]}</text>}
               </g>
             )}
           </g>
