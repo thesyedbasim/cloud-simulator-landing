@@ -5,8 +5,9 @@
   color-scheme: light;
   --bp-bg: #ebebe9;        /* platinum */
   --bp-surface: #ffffff;
-  --bp-grid: #131314;
-  --bp-line: #131314;      /* ink: chinese black */
+  --bp-grid: #3a7bd5;
+  --bp-line: #1f4f8a;      /* blueprint ink: components and strokes keep their original colours */
+  --bp-black: #131314;
   --bp-text: #131314;
   --bp-text-dim: #5b5b5c;  /* the palette's #797979 darkened for body-text contrast on platinum */
   --bp-gray: #797979;

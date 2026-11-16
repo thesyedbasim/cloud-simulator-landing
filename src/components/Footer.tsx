@@ -4,12 +4,12 @@ import { Container, StartButton } from './ui'
 
 export function FinalCta() {
   return (
-    <section className="relative isolate overflow-hidden bg-[var(--bp-highlight)] py-24 sm:py-32">
-      <div className="iso-grid absolute inset-0 -z-10" aria-hidden />
+    <section className="relative isolate overflow-hidden bg-accent text-white py-24 sm:py-32">
+      <div className="iso-grid absolute inset-0 -z-10 opacity-30 invert" aria-hidden />
       <Container className="text-center">
         <h2 className="mx-auto max-w-3xl text-[2.25rem] font-semibold leading-[1.1] tracking-tight sm:text-[3rem]">Ready to break something?</h2>
-        <p className="mx-auto mt-5 max-w-xl text-lg text-text/70">Open a design, run a scenario, and see exactly why it fails. Free, with no sign-up.</p>
-        <div className="mt-9 flex justify-center"><StartButton>Start Now</StartButton></div>
+        <p className="mx-auto mt-5 max-w-xl text-lg text-white/80">Open a design, run a scenario, and see exactly why it fails. Free, with no sign-up.</p>
+        <div className="mt-9 flex justify-center"><StartButton className="!bg-[var(--bp-highlight)] !text-[var(--bp-black)] hover:!bg-white">Start Now</StartButton></div>
       </Container>
     </section>
   )
