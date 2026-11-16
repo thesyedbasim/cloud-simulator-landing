@@ -14,8 +14,8 @@ const VIGNETTES: Record<string, () => ReactNode> = {
   state: () => (
     <>
       <g className="v-bob"><S x={58} y={78}><Art c={comp('appServers', { vcpu: 1 })} /></S></g>
-      <g className="v-bob" style={{ animationDelay: '.12s' }}><S x={142} y={78}><Art c={comp('appServers', { vcpu: 4 })} /></S></g>
-      <g className="v-bob" style={{ animationDelay: '.24s' }}><S x={226} y={78}><Art c={comp('appServers', { vcpu: 32 })} /></S></g>
+      <g className="v-bob" style={{ transitionDelay: '.12s' }}><S x={142} y={78}><Art c={comp('appServers', { vcpu: 4 })} /></S></g>
+      <g className="v-bob" style={{ transitionDelay: '.24s' }}><S x={226} y={78}><Art c={comp('appServers', { vcpu: 32 })} /></S></g>
       {['Lv 1', 'Lv 3', 'Lv 6'].map((t, i) => <text key={t} x={58 + i * 84} y={118} textAnchor="middle" fontSize={9} fill="var(--bp-text-dim)" {...mono}>{t}</text>)}
     </>
   ),
@@ -35,9 +35,9 @@ const VIGNETTES: Record<string, () => ReactNode> = {
       <circle cx={42} cy={36} r={8} fill="var(--status-failed)" fillOpacity={0.15} />
       <path d="M42 31v6M42 40v.5" stroke="var(--status-failed)" strokeWidth={1.6} strokeLinecap="round" />
       <text x={58} y={40} fontSize={11.5} fontWeight={600} fill="var(--bp-text)">App Servers is the bottleneck</text>
-      <text className="v-slide" style={{ animationDelay: '0s' }} x={36} y={60} fontSize={9.5} fill="var(--bp-text-dim)">Receiving 4,621 rps but can only</text>
-      <text className="v-slide" style={{ animationDelay: '.1s' }} x={36} y={73} fontSize={9.5} fill="var(--bp-text-dim)">handle about 1,000 rps, so 78% of</text>
-      <text className="v-slide" style={{ animationDelay: '.2s' }} x={36} y={86} fontSize={9.5} fill="var(--bp-text-dim)">requests are dropped.</text>
+      <text className="v-slide" style={{ transitionDelay: '0s' }} x={36} y={60} fontSize={9.5} fill="var(--bp-text-dim)">Receiving 4,621 rps but can only</text>
+      <text className="v-slide" style={{ transitionDelay: '.1s' }} x={36} y={73} fontSize={9.5} fill="var(--bp-text-dim)">handle about 1,000 rps, so 78% of</text>
+      <text className="v-slide" style={{ transitionDelay: '.2s' }} x={36} y={86} fontSize={9.5} fill="var(--bp-text-dim)">requests are dropped.</text>
     </g>
   ),
   fixes: () => (
@@ -54,8 +54,8 @@ const VIGNETTES: Record<string, () => ReactNode> = {
   compare: () => (
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
       <path d="M24 100H256M24 100V20" stroke={INK} strokeOpacity={0.15} />
-      <path d="M24 98H86L100 30H168L182 98H256" stroke="var(--bp-text-dim)" strokeWidth={2} strokeDasharray="5 4" />
-      <path d="M24 98H92L104 90H168L180 98H256" stroke="var(--bp-accent)" strokeWidth={2.4} pathLength={1} className="v-draw" />
+      <path d="M24 98H86L100 30H168L182 98H256" stroke="var(--bp-text-dim)" strokeWidth={2} strokeDasharray="5 4" className="v-dash" />
+      <path d="M24 98H92L104 90H168L180 98H256" stroke="var(--bp-accent)" strokeWidth={2.4} className="v-thick" />
       <text x={210} y={30} fontSize={9.5} fill="var(--bp-text-dim)" stroke="none" {...mono}>A</text>
       <text x={228} y={30} fontSize={9.5} fill="var(--bp-accent)" stroke="none" {...mono}>B</text>
     </g>
@@ -66,7 +66,7 @@ const VIGNETTES: Record<string, () => ReactNode> = {
         <g key={n as string}>
           <text x={24} y={34 + i * 24} fontSize={9.5} fill="var(--bp-text-dim)">{n as string}</text>
           <rect x={52} y={26 + i * 24} width={190} height={8} rx={4} fill={mix(0.1)} />
-          <rect className="v-grow" style={{ animationDelay: `${i * 0.1}s` }} x={52} y={26 + i * 24} width={w as number} height={8} rx={4} fill={c as string} />
+          <rect className="v-grow" style={{ transitionDelay: `${i * 0.1}s` }} x={52} y={26 + i * 24} width={w as number} height={8} rx={4} fill={c as string} />
         </g>
       ))}
       <line x1={52 + 31} y1={20} x2={52 + 31} y2={94} stroke={INK} strokeOpacity={0.45} />
@@ -88,7 +88,7 @@ const VIGNETTES: Record<string, () => ReactNode> = {
       {Array.from({ length: 8 }, (_, i) => {
         const x = 30 + (i % 4) * 58, y = 26 + Math.floor(i / 4) * 40
         if (i < 2) return <rect key={i} x={x} y={y} width={44} height={28} rx={5} fill={mix(0.2)} stroke={INK} strokeOpacity={0.8} />
-        if (i < 5) return <rect key={i} x={x} y={y} width={44} height={28} rx={5} fill="var(--status-strained)" fillOpacity={0.25} stroke="var(--status-strained)" className="v-pulse" style={{ animationDelay: `${(i - 2) * 0.2}s` }} />
+        if (i < 5) return <rect key={i} x={x} y={y} width={44} height={28} rx={5} fill="var(--status-strained)" fillOpacity={0.25} stroke="var(--status-strained)" className="v-pulse" style={{ transitionDelay: `${(i - 2) * 0.2}s` }} />
         return <rect key={i} x={x} y={y} width={44} height={28} rx={5} fill="none" stroke={INK} strokeOpacity={0.3} strokeDasharray="4 3" />
       })}
     </g>
@@ -99,7 +99,7 @@ const VIGNETTES: Record<string, () => ReactNode> = {
       {[[32, 70], [96, 70], [150, 40]].map(([x, y]) => <circle key={x} cx={x} cy={y} r={5} fill="var(--bp-surface)" stroke={INK} strokeOpacity={0.7} />)}
       <circle cx={212} cy={40} r={9} fill="var(--status-healthy)" />
       <path d="M208 40l3 3 5-6" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-      <circle className="v-hop" cx={0} cy={0} r={5} fill="var(--bp-accent)" stroke="#fff" strokeWidth={1.6} style={{ transform: 'translate(32px,70px)' }} />
+      <circle className="v-hop" cx={0} cy={0} r={5} fill="var(--bp-accent)" stroke="#fff" strokeWidth={1.6} />
       <text x={24} y={104} fontSize={9.5} fill="var(--bp-text-dim)" {...mono}>completed in 73 ms</text>
     </g>
   ),
@@ -118,7 +118,7 @@ export function Vignette({ id }: { id: string }) {
   const draw = VIGNETTES[id]
   return (
     <svg viewBox="0 0 280 124" className="block h-full w-full" aria-hidden>
-      <style>{`.v-warn,.v-badge,.v-pulse,.v-grow,.v-grow-s,.v-shrink,.v-draw,.v-bob,.v-slide,.v-hop,.v-scrub{transform-box:fill-box}.v-grow{transform-origin:left center}.v-bob,.v-badge,.v-warn{transform-origin:center}.bento:hover .v-bob{animation:v-bob .6s ease-in-out infinite}.bento:hover .v-warn{animation:v-warn .5s ease-in-out infinite}.bento:hover .v-badge{animation:v-badge .5s ease-in-out infinite}.bento:hover .v-slide{animation:v-slide .25s var(--ease-out) both}.bento:hover .v-shrink{animation:v-shrink .8s ease-in-out infinite alternate}.bento:hover .v-grow-s{animation:v-gw .8s ease-in-out infinite alternate}.bento:hover .v-draw{stroke-dasharray:1;animation:v-draw .9s ease-in-out infinite}.bento:hover .v-grow{animation:v-grow .7s var(--ease-out) infinite alternate}.bento:hover .v-pulse{animation:cs-pulse .6s ease-in-out infinite}.bento:hover .v-hop{animation:v-hop 1.3s ease-in-out infinite}.bento:hover .v-scrub{animation:v-scrub 1s ease-in-out infinite alternate}@keyframes cs-pulse{0%,100%{fill-opacity:.12}50%{fill-opacity:.5}}@keyframes v-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes v-warn{0%,100%{fill-opacity:.14}50%{fill-opacity:.4}}@keyframes v-badge{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}@keyframes v-slide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}@keyframes v-shrink{to{width:12px}}@keyframes v-gw{to{width:36px}}@keyframes v-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}@keyframes v-grow{from{transform:scaleX(.05)}to{transform:scaleX(1)}}@keyframes v-hop{0%{transform:translate(32px,70px)}30%{transform:translate(96px,70px)}65%{transform:translate(150px,40px)}100%{transform:translate(212px,40px)}}@keyframes v-scrub{from{transform:translateX(0)}to{transform:translateX(150px)}}@media (prefers-reduced-motion: reduce){.bento *{animation:none!important}}`}</style>
+      <style>{`.v-warn,.v-pulse,.v-grow,.v-grow-s,.v-shrink,.v-bob,.v-slide,.v-hop,.v-scrub{transform-box:fill-box}.v-grow,.v-grow-s{transform-origin:left center}.v-bob,.v-warn,.v-slide,.v-grow,.v-grow-s,.v-shrink,.v-pulse,.v-hop,.v-scrub,.v-dash,.v-thick{transition:transform .4s cubic-bezier(.4,0,.2,1),fill-opacity .4s cubic-bezier(.4,0,.2,1),width .4s cubic-bezier(.4,0,.2,1),stroke-dashoffset .4s cubic-bezier(.4,0,.2,1),stroke-width .4s cubic-bezier(.4,0,.2,1)}.v-hop{transform:translate(32px,70px)}.bento:hover .v-bob{transform:translateY(-6px)}.bento:hover .v-warn{fill-opacity:.4}.bento:hover .v-slide{transform:translateX(6px)}.bento:hover .v-shrink{width:12px}.bento:hover .v-grow-s{width:36px}.bento:hover .v-dash{stroke-dashoffset:-18}.bento:hover .v-thick{stroke-width:3.6}.bento:hover .v-grow{transform:scaleX(.82)}.bento:hover .v-pulse{fill-opacity:.5}.bento:hover .v-hop{transform:translate(212px,40px)}.bento:hover .v-scrub{transform:translateX(150px)}@media (prefers-reduced-motion: reduce){.bento *{transition:none!important}}`}</style>
       {draw?.()}
     </svg>
   )
