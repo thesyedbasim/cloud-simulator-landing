@@ -15,8 +15,8 @@ export function Capabilities() {
           {CAPABILITIES.map((c, i) => (
             <li key={c.id} className={SPAN[i] ?? 'lg:col-span-2'}>
               <Reveal delay={(i % 3) * 50} className="h-full">
-                <article className="bento panel-solid group flex h-full flex-col overflow-hidden transition-[border-color] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:border-accent/30 ">
-                  <div className="iso-grid min-h-[168px] flex flex-1 items-center border-b border-line/10 bg-bg p-3"><Vignette id={c.id} /></div>
+                <article className="bento panel-solid group flex h-full flex-col overflow-hidden sm:h-[400px] transition-[border-color] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:border-accent/30 ">
+                  <div className="iso-grid relative min-h-[168px] flex-1 border-b border-line/10 bg-bg"><div className="absolute inset-0 p-3"><Vignette id={c.id} /></div></div>
                   <div className="overflow-hidden p-5 transition-[height] duration-[var(--dur-slow)] ease-[var(--ease-out)] sm:h-[196px] sm:group-hover:h-[172px]">
                     <h3 className="text-[1.1rem] font-semibold tracking-tight">{c.title}</h3>
                     <p className="mt-2 text-[15px] leading-relaxed text-dim">{c.body}</p>
