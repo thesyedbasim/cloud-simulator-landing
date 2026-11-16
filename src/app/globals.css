@@ -79,25 +79,12 @@ body {
 /* headings use Space Grotesk; descriptions and small text use Inter; data and labels use Space Mono */
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
 
-/* retro keycap button: pixel-stepped corners, a thick base, and the face drops onto it when pressed */
-.key {
-  --key-face: var(--bp-accent); --key-base: color-mix(in srgb, var(--bp-accent) 55%, black); --key-ink: #fff;
-  --px: 4px;
-  display: inline-block; position: relative; cursor: pointer; text-decoration: none;
-  background: var(--key-base);
-  clip-path: polygon(0 var(--px), var(--px) var(--px), var(--px) 0, calc(100% - var(--px)) 0, calc(100% - var(--px)) var(--px), 100% var(--px), 100% calc(100% - var(--px)), calc(100% - var(--px)) calc(100% - var(--px)), calc(100% - var(--px)) 100%, var(--px) 100%, var(--px) calc(100% - var(--px)), 0 calc(100% - var(--px)));
-  padding-top: 0; padding-bottom: 6px;
-}
+/* buttons: flat, square, one solid colour; a slight darken on hover */
+.key { display: inline-block; text-decoration: none; cursor: pointer; --key-face: var(--bp-accent); --key-ink: #fff; }
 .key-face {
-  display: flex; align-items: center; gap: 0.5rem; justify-content: center;
-  background: var(--key-face); color: var(--key-ink);
-  font-family: var(--font-mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-  box-shadow: inset 0 3px 0 rgba(255,255,255,.3), inset 0 -3px 0 rgba(0,0,0,.14);
-  clip-path: polygon(0 var(--px), var(--px) var(--px), var(--px) 0, calc(100% - var(--px)) 0, calc(100% - var(--px)) var(--px), 100% var(--px), 100% calc(100% - var(--px)), calc(100% - var(--px)) calc(100% - var(--px)), calc(100% - var(--px)) 100%, var(--px) 100%, var(--px) calc(100% - var(--px)), 0 calc(100% - var(--px)));
-  transform: translateY(0); transition: transform 70ms steps(2, end), filter var(--dur-fast);
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: var(--key-face); color: var(--key-ink); font-weight: 500;
+  transition: filter var(--dur-base) var(--ease-out);
 }
-.key:hover .key-face { filter: brightness(1.08); transform: translateY(-1px); }
-.key:active .key-face { transform: translateY(6px); filter: none; transition-duration: 30ms; }
-.key:focus-visible { outline-offset: 2px; }
-.key-lime { --key-face: var(--bp-highlight); --key-base: #8a9a2c; --key-ink: var(--bp-black); }
-@media (prefers-reduced-motion: reduce) { .key-face { transition: none; } }
+.key:hover .key-face { filter: brightness(0.92); }
+.key-lime { --key-face: var(--bp-highlight); --key-ink: var(--bp-black); }
