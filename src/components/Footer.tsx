@@ -17,19 +17,18 @@ export function FinalCta() {
 
 export function Footer() {
   return (
-    <footer className="border-t border-line/10 py-10">
-      <Container className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
-        <div>
+    <footer className="border-t border-line/10 py-5">
+      <Container className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <Logo />
-          <p className="mt-3 max-w-xs text-[15px] text-dim">{SITE.tagline}</p>
+          <p className="text-[15px] text-dim">by <a href="https://thesyedbasim.com" rel="noopener" className="text-text underline-offset-4 hover:underline">{SITE.author}</a></p>
         </div>
-        <nav aria-label="Footer" className="flex flex-wrap gap-x-8 gap-y-3 text-[15px]">
+        <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-[15px]">
           {NAV.map((n) => <a key={n.href} href={n.href} className="text-dim hover:text-text">{n.label}</a>)}
           <a href={SITE.github} className="text-dim hover:text-text" rel="noopener">GitHub</a>
           <a href={SITE.modelDoc} className="text-dim hover:text-text" rel="noopener">Model write-up</a>
         </nav>
       </Container>
-      <Container><p className="mt-8 text-[14px] text-dim">Built by {SITE.author}. CloudSim models generic components and is not a substitute for real load testing.</p></Container>
     </footer>
   )
 }
