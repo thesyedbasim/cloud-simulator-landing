@@ -15,13 +15,13 @@ export function Logo({ className = '' }: { className?: string }) {
 export function Nav() {
   return (
     <header className="sticky top-0 z-40 border-b border-line/10 bg-bg/70 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center gap-6 px-4 sm:px-6">
+      <div className="mx-auto grid h-16 w-full max-w-[1440px] grid-cols-[1fr_auto_1fr] items-center gap-6 px-4 sm:px-6">
         <Logo className="text-[17px]" />
-        <nav aria-label="Main" className="ml-4 hidden items-center gap-1 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
           {NAV.map((n) => <a key={n.href} href={n.href} className="px-3 py-2 text-[15px] text-dim transition-colors duration-[var(--dur-fast)] hover:bg-line/[0.06] hover:text-text">{n.label}</a>)}
+        <a href={SITE.github} className="px-3 py-2 text-[15px] text-dim transition-colors duration-[var(--dur-fast)] hover:bg-line/[0.06] hover:text-text" rel="noopener">GitHub</a>
         </nav>
-        <div className="ml-auto flex items-center gap-2">
-          <a href={SITE.github} className="hidden px-3 py-2 text-[15px] text-dim transition-colors hover:text-text sm:block" rel="noopener">GitHub</a>
+        <div className="col-start-3 flex items-center justify-end gap-2">
           <StartButton size="md">Start Now</StartButton>
           <details className="relative md:hidden">
             <summary className="grid size-10 cursor-pointer list-none place-items-center text-dim hover:bg-line/[0.06] [&::-webkit-details-marker]:hidden" aria-label="Menu"><Menu size={20} /></summary>
