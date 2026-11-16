@@ -24,7 +24,7 @@ export function Honesty() {
           <Reveal delay={120} className="h-full">
             <aside className="panel-solid flex h-full flex-col p-6" aria-label="How a number is computed">
               <p className="label">How a number is computed</p>
-              <pre className="data mt-4 flex-1 overflow-x-auto whitespace-pre-wrap rounded-[8px] bg-bg p-4 text-[13px] leading-relaxed text-text"><code>{`latency   = base ÷ (1 − utilisation)
+              <pre className="data mt-4 flex-1 overflow-x-auto whitespace-pre-wrap bg-bg p-4 text-[13px] leading-relaxed text-text"><code>{`latency   = base ÷ (1 − utilisation)
 
 capacity  = min(CPU limit, RAM limit)
 

@@ -15,8 +15,8 @@
   --status-strained: #d98a0b;
   --status-failed: #d93b3b;
 
-  --radius-control: 6px;
-  --radius-panel: 10px;
+  --radius-control: 0px;
+  --radius-panel: 0px;
 
   --dur-fast: 120ms;
   --dur-base: 200ms;

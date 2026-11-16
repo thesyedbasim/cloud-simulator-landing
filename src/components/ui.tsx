@@ -20,7 +20,7 @@ export function StartButton({ children = 'Start Now', className = '', size = 'lg
   return (
     <a
       href={SITE.appUrl}
-      className={`group inline-flex items-center gap-2 rounded-[6px] bg-accent font-medium text-white shadow-[0_1px_0_rgba(255,255,255,.25)_inset,0_6px_18px_-6px_color-mix(in_srgb,var(--bp-accent)_70%,transparent)] transition-[transform,box-shadow,background-color] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:bg-[color-mix(in_srgb,var(--bp-accent)_88%,black)] hover:shadow-[0_1px_0_rgba(255,255,255,.25)_inset,0_10px_26px_-6px_color-mix(in_srgb,var(--bp-accent)_80%,transparent)] active:scale-[0.97] ${size === 'lg' ? 'px-6 py-3 text-[17px]' : 'px-4 py-2 text-[15px]'} ${className}`}
+      className={`group inline-flex items-center gap-2 bg-accent font-medium text-white transition-[transform,background-color] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:bg-[color-mix(in_srgb,var(--bp-accent)_88%,black)]  ${size === 'lg' ? 'px-6 py-3 text-[17px]' : 'px-4 py-2 text-[15px]'} ${className}`}
     >
       {children}
       <ArrowRight size={size === 'lg' ? 18 : 16} className="transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-0.5" aria-hidden />

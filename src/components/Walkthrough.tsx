@@ -35,7 +35,7 @@ function Ground({ id, st, fx, from, to }: { id: string; st: St; fx: Fx; from: nu
 function Chip({ x, y, w, children, tone = 'var(--bp-line)', fx, from, to }: { x: number; y: number; w: number; children: ReactNode; tone?: string; fx: Fx; from: number; to?: number }) {
   return (
     <g className={fx(from, to)} transform={`translate(${x} ${y})`}>
-      <rect width={w * U} height={26 * U} rx={13 * U} fill="var(--bp-surface)" stroke={tone} strokeOpacity={0.5} />
+      <rect width={w * U} height={26 * U} rx={0} fill="var(--bp-surface)" stroke={tone} strokeOpacity={0.5} />
       <text x={w * U / 2} y={17.5 * U} textAnchor="middle" fontSize={11.5 * U} fill={tone} style={{ fontFamily: 'var(--font-mono)' }}>{children}</text>
     </g>
   )
@@ -44,7 +44,7 @@ function Chip({ x, y, w, children, tone = 'var(--bp-line)', fx, from, to }: { x:
 function Card({ x, y, w, h, fx, from, to, children }: { x: number; y: number; w: number; h: number; fx: Fx; from: number; to?: number; children: ReactNode }) {
   return (
     <g className={fx(from, to)} transform={`translate(${x} ${y})`}>
-      <rect width={w * U} height={h * U} rx={10 * U} fill="var(--bp-surface)" stroke="var(--bp-line)" strokeOpacity={0.25} style={{ filter: 'drop-shadow(0 8px 14px rgba(16,36,62,.14))' }} />
+      <rect width={w * U} height={h * U} rx={0} fill="var(--bp-surface)" stroke="var(--bp-line)" strokeOpacity={0.25} />
       {children}
     </g>
   )
@@ -99,7 +99,7 @@ const SCENES: Scene[] = [
       <Card x={app.x + 64 * U} y={app.y + 10 * U} w={176} h={64} fx={fx} from={0}>
         <T x={14} y={24} s={12} w={600}>App Servers</T>
         <T x={14} y={46} s={11.5} fill="var(--bp-text-dim)">Instances</T>
-        <rect x={108 * U} y={32 * U} width={54 * U} height={22 * U} rx={6 * U} fill="var(--bp-accent)" fillOpacity={0.12} />
+        <rect x={108 * U} y={32 * U} width={54 * U} height={22 * U} rx={0} fill="var(--bp-accent)" fillOpacity={0.12} />
         <T x={120} y={48} s={13} w={600} fill="var(--bp-accent)">+ 2 → 4</T>
       </Card>
       <Chip x={left} y={top} w={150} tone="var(--status-healthy)" fx={fx} from={3.8}>ERR 78% → 5%</Chip>
@@ -117,9 +117,9 @@ const SCENES: Scene[] = [
             <g key={l as string}>
               <T x={20} y={66 + i * 46} s={12.5} w={500}>{l as string}</T>
               <T x={300} y={66 + i * 46} s={12} fill="var(--bp-text-dim)" mono>{t as string}</T>
-              <rect x={20 * U} y={(74 + i * 46) * U} width={420 * U} height={7 * U} rx={3.5 * U} fill="var(--bp-line)" fillOpacity={0.1} />
-              <rect className={fx(1.4 + i * 0.3)} x={20 * U} y={(74 + i * 46) * U} width={4.2 * (a as number) * U} height={7 * U} rx={3.5 * U} fill="var(--status-failed)" fillOpacity={0.4} />
-              <rect className={fx(2.6 + i * 0.3)} x={20 * U} y={(74 + i * 46) * U} width={4.2 * (b as number) * U} height={7 * U} rx={3.5 * U} fill="var(--bp-accent)" />
+              <rect x={20 * U} y={(74 + i * 46) * U} width={420 * U} height={7 * U} rx={0} fill="var(--bp-line)" fillOpacity={0.1} />
+              <rect className={fx(1.4 + i * 0.3)} x={20 * U} y={(74 + i * 46) * U} width={4.2 * (a as number) * U} height={7 * U} rx={0} fill="var(--status-failed)" fillOpacity={0.4} />
+              <rect className={fx(2.6 + i * 0.3)} x={20 * U} y={(74 + i * 46) * U} width={4.2 * (b as number) * U} height={7 * U} rx={0} fill="var(--bp-accent)" />
             </g>
           ))}
         </Card>
@@ -195,9 +195,9 @@ export function Walkthrough() {
             {SCENES.map((s, n) => (
               <li key={s.title} className="shrink-0 lg:shrink">
                 <a href={`#how-it-works-${n + 1}`} onClick={(e) => { e.preventDefault(); setI(n) }} aria-current={n === i ? 'step' : undefined}
-                  className={`block rounded-[10px] border p-4 transition-colors duration-[var(--dur-base)] ${n === i ? 'border-accent/40 bg-surface shadow-sm' : 'border-transparent hover:bg-surface/70'}`}>
+                  className={`block border p-4 transition-colors duration-[var(--dur-base)] ${n === i ? 'border-accent/40 bg-surface' : 'border-transparent hover:bg-surface/70'}`}>
                   <span className="flex items-center gap-3">
-                    <span className={`data grid size-6 place-items-center rounded-full text-[12px] ${n === i ? 'bg-accent text-white' : 'bg-line/10 text-dim'}`}>{n + 1}</span>
+                    <span className={`data grid size-6 place-items-center text-[12px] ${n === i ? 'bg-accent text-white' : 'bg-line/10 text-dim'}`}>{n + 1}</span>
                     <span className="font-medium">{s.title}</span>
                   </span>
                   {n === i && <span className="mt-2 hidden pl-9 text-[15px] leading-relaxed text-dim lg:block">{s.body}</span>}
