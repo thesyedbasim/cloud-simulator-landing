@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 import { SITE } from '@/content/site'
 
 export const Container = ({ children, className = '' }: { children: ReactNode; className?: string }) => (
-  <div className={`mx-auto w-full max-w-[1180px] px-4 sm:px-8 ${className}`}>{children}</div>
+  <div className={`mx-auto w-full max-w-[1440px] px-4 sm:px-6 ${className}`}>{children}</div>
 )
 
 export function SectionHead({ title, body, className = '' }: { title: string; body?: string; className?: string }) {

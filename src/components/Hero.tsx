@@ -9,8 +9,9 @@ export function Hero() {
   return (
     <section id="top" className="relative isolate overflow-hidden">
       <div className="iso-grid iso-grid-fade absolute inset-0 -z-10" aria-hidden />
-      <Container className="grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.12fr] lg:gap-10 lg:py-24">
-        <div>          <h1 className="text-[2.6rem] font-semibold leading-[1.06] tracking-[-0.025em] sm:text-[3.4rem] lg:text-[3.9rem]">
+      <Container className="grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[0.8fr_1.4fr] lg:gap-6 lg:py-24">
+        <div>
+          <h1 className="text-[2.6rem] font-semibold leading-[1.06] tracking-[-0.025em] sm:text-[3.4rem] lg:text-[3.9rem]">
             Break your architecture before production does.
           </h1>
           <p className="mt-6 max-w-xl text-[1.15rem] leading-relaxed text-dim">{SITE.description}</p>
@@ -21,7 +22,7 @@ export function Hero() {
           <p className="mt-6 text-[15px] text-dim">Free. No sign-up. Runs in your browser.</p>
         </div>
 
-        <figure>
+        <figure className="lg:-mr-4 lg:scale-[1.08] lg:origin-right">
           <IsoDesign design={LINK_SHORTENER} className="block h-auto w-full" stats={{ client: '600 RPS', lb: '6%', app: '60%', cache: 'HIT 80%', db: '40%' }} />
           <figcaption className="sr-only">The Link Shortener design running at steady load: clients, a load balancer, app servers, a cache and a database, with requests flowing between them.</figcaption>
         </figure>
