@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { LINK_SHORTENER } from '@/content/designs'
 import { frameOf, gridToScreen } from '@/lib/iso'
 import { IsoDesign } from './iso/IsoDesign'
-import { Container, SectionHead } from './ui'
+import { Container } from './ui'
 
 /**
  * An animated, SVG-only walkthrough of the real app: the scene plays itself, brisk and eased, then holds its final state.
@@ -152,64 +152,82 @@ function compile(scene: Scene) {
   return { body, css: [...rules.values()].join('') }
 }
 
+const VH_PER_STEP = 70 // vertical scroll spent on each step
+
 export function Walkthrough() {
   const [i, setI] = useState(0)
-  const [seen, setSeen] = useState(false)
-  const [reduced, setReduced] = useState(false)
-  const root = useRef<HTMLDivElement>(null)
-  const timer = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const track = useRef<HTMLDivElement>(null)
 
+  /** The section is a tall track with a sticky stage. Scroll progress through the track picks the step. */
   useEffect(() => {
-    setReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-    const io = new IntersectionObserver(([e]) => setSeen(e.isIntersecting), { threshold: 0.35 })
-    if (root.current) io.observe(root.current)
-    const fromHash = () => { const m = /^#how-it-works-(\d)$/.exec(location.hash); if (m) setI(Math.min(5, Math.max(0, Number(m[1]) - 1))) }
-    fromHash(); addEventListener('hashchange', fromHash)
-    return () => { io.disconnect(); removeEventListener('hashchange', fromHash) }
+    let raf = 0
+    const update = () => {
+      raf = 0
+      const el = track.current
+      if (!el) return
+      const r = el.getBoundingClientRect()
+      const span = r.height - innerHeight
+      const p = span > 0 ? Math.min(0.9999, Math.max(0, -r.top / span)) : 0
+      setI(Math.floor(p * SCENES.length))
+    }
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update) }
+    update()
+    addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', onScroll)
+    return () => { removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll); cancelAnimationFrame(raf) }
   }, [])
 
+  /** Scrolls the page to the start of a step, so links, the hash and the step list all use the same path. */
+  const goTo = (n: number) => {
+    const el = track.current
+    if (!el) return
+    const span = el.offsetHeight - innerHeight
+    const top = el.getBoundingClientRect().top + scrollY
+    scrollTo({ top: top + ((n + 0.5) / SCENES.length) * span, behavior: 'smooth' })
+  }
   useEffect(() => {
-    if (!seen || reduced) return
-    timer.current = setTimeout(() => setI((n) => (n + 1) % SCENES.length), (D + 1) * 1000)
-    return () => clearTimeout(timer.current)
-  }, [i, seen, reduced])
+    const fromHash = () => { const m = /^#how-it-works-(\d)$/.exec(location.hash); if (m) goTo(Math.min(SCENES.length - 1, Math.max(0, Number(m[1]) - 1))) }
+    fromHash(); addEventListener('hashchange', fromHash)
+    return () => removeEventListener('hashchange', fromHash)
+  }, [])
 
   const scene = SCENES[i]
   const { body, css } = useMemo(() => compile(scene), [scene])
 
   return (
-    <section id="how-it-works" ref={root} className="py-20 sm:py-28">
-      <Container>
-        <SectionHead title="Open it, break it, understand it, fix it." body="This is the real workflow, six steps long. Nothing here is a mock-up of a feature that does not exist." />
-        <div className="mt-12 grid gap-8 lg:grid-cols-[320px_1fr]">
-          <ol className="flex gap-2 overflow-x-auto lg:flex-col lg:overflow-visible" aria-label="Walkthrough steps">
-            {SCENES.map((s, n) => (
-              <li key={s.title} className="shrink-0 lg:shrink">
-                <a href={`#how-it-works-${n + 1}`} onClick={(e) => { e.preventDefault(); setI(n) }} aria-current={n === i ? 'step' : undefined}
-                  className={`block border p-4 transition-colors duration-[var(--dur-base)] ${n === i ? 'border-accent/40 bg-surface' : 'border-transparent hover:bg-surface/70'}`}>
-                  <span className="flex items-center gap-3">
-                    <span className={`data grid size-6 place-items-center text-[12px] ${n === i ? 'bg-accent text-white' : 'bg-line/10 text-dim'}`}>{n + 1}</span>
-                    <span className="font-medium">{s.title}</span>
-                  </span>
-                  {n === i && <span className="mt-2 hidden pl-9 text-[15px] leading-relaxed text-dim lg:block">{s.body}</span>}
-                </a>
-              </li>
-            ))}
-          </ol>
-          <div>
-            <div className="panel-solid iso-grid overflow-hidden">
-              <div className="relative" style={{ aspectRatio: `${FRAME.w} / ${FRAME.h}` }}>
-                <IsoDesign design={LINK_SHORTENER} frame={FRAME} labels packets className="absolute inset-0 h-full w-full" title="Animated walkthrough of CloudSim: it opens a design, runs a traffic spike, reads the bottleneck, scales it up and finds the capacity limit." />
-                <svg key={i} viewBox={`${FRAME.x} ${FRAME.y} ${FRAME.w} ${FRAME.h}`} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
-                  <style>{css + `@media (prefers-reduced-motion: reduce){[class^="wt-"]{animation:none!important;opacity:1!important}}`}</style>
-                  {body}
-                </svg>
-              </div>
+    <section id="how-it-works">
+      <div ref={track} style={{ height: `${SCENES.length * VH_PER_STEP + 30}vh` }}>
+        <div className="sticky top-16 flex min-h-[calc(100vh-4rem)] items-center py-6">
+          <Container className="grid items-center gap-8 lg:grid-cols-[360px_1fr] lg:gap-12">
+            <div>
+              <h2 className="text-[2rem] font-semibold leading-[1.15] tracking-tight sm:text-[2.5rem]">Open it, break it, understand it, fix it.</h2>
+              <p className="mt-4 text-lg text-dim">This is the real workflow, six steps long. Nothing here is a mock-up of a feature that does not exist.</p>
+              <ol className="mt-8 hidden flex-col gap-1 lg:flex" aria-label="Walkthrough steps">
+                {SCENES.map((s, n) => (
+                  <li key={s.title}>
+                    <a href={`#how-it-works-${n + 1}`} onClick={(e) => { e.preventDefault(); goTo(n) }} aria-current={n === i ? 'step' : undefined}
+                      className={`block border-l-2 py-2 pl-4 transition-colors duration-[var(--dur-base)] ${n === i ? 'border-accent' : 'border-line/10 text-dim hover:text-text'}`}>
+                      <span className={`font-medium ${n === i ? 'text-text' : ''}`}>{s.title}</span>
+                      {n === i && <span className="mt-1 block text-[15px] leading-relaxed text-dim">{s.body}</span>}
+                    </a>
+                  </li>
+                ))}
+              </ol>
             </div>
-            <p className="mt-4 text-[16px] leading-relaxed text-dim lg:hidden"><strong className="font-medium text-text">{scene.title}.</strong> {scene.body}</p>
-          </div>
+            <div>
+              <div className="panel-solid iso-grid overflow-hidden">
+                <div className="relative" style={{ aspectRatio: `${FRAME.w} / ${FRAME.h}` }}>
+                  <IsoDesign design={LINK_SHORTENER} frame={FRAME} labels packets className="absolute inset-0 h-full w-full" title="Animated walkthrough of CloudSim: it opens a design, runs a traffic spike, reads the bottleneck, scales it up and finds the capacity limit." />
+                  <svg key={i} viewBox={`${FRAME.x} ${FRAME.y} ${FRAME.w} ${FRAME.h}`} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
+                    <style>{css + `@media (prefers-reduced-motion: reduce){[class^="wt-"]{animation:none!important;opacity:1!important}}`}</style>
+                    {body}
+                  </svg>
+                </div>
+              </div>
+              <p className="mt-4 text-[16px] leading-relaxed text-dim lg:hidden"><strong className="font-medium text-text">{scene.title}.</strong> {scene.body}</p>
+            </div>
+          </Container>
         </div>
-      </Container>
+      </div>
     </section>
   )
 }
