@@ -15,15 +15,14 @@ export function SectionHead({ title, body, className = '' }: { title: string; bo
   )
 }
 
-/** Primary call to action. Always goes to the app. */
-export function StartButton({ children = 'Start Now', className = '', size = 'lg' }: { children?: ReactNode; className?: string; size?: 'md' | 'lg' }) {
+/** Primary call to action. Always goes to the app. A retro keycap: the face drops when pressed. */
+export function StartButton({ children = 'Start Now', className = '', size = 'lg', tone = 'blue' }: { children?: ReactNode; className?: string; size?: 'md' | 'lg'; tone?: 'blue' | 'lime' }) {
   return (
-    <a
-      href={SITE.appUrl}
-      className={`group inline-flex items-center gap-2 bg-accent font-medium text-white transition-[transform,background-color] duration-[var(--dur-base)] ease-[var(--ease-out)] hover:bg-[color-mix(in_srgb,var(--bp-accent)_88%,black)]  ${size === 'lg' ? 'px-6 py-3 text-[17px]' : 'px-4 py-2 text-[15px]'} ${className}`}
-    >
-      {children}
-      <ArrowRight size={size === 'lg' ? 18 : 16} className="transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-0.5" aria-hidden />
+    <a href={SITE.appUrl} className={`key group ${tone === 'lime' ? 'key-lime' : ''} ${className}`}>
+      <span className={`key-face ${size === 'lg' ? 'px-6 py-3 text-[15px]' : 'px-4 py-2 text-[13px]'}`}>
+        {children}
+        <ArrowRight size={size === 'lg' ? 18 : 16} className="transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-0.5" aria-hidden />
+      </span>
     </a>
   )
 }
