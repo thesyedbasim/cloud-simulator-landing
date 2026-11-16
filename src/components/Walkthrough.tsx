@@ -7,11 +7,12 @@ import { IsoDesign } from './iso/IsoDesign'
 import { Container, SectionHead } from './ui'
 
 /**
- * An animated, SVG-only walkthrough of the real app: a big cursor performs the actions while the scene reacts.
- * Each scene is data (cursor waypoints + timed appearances). A tiny compiler turns the timings into CSS
+ * An animated, SVG-only walkthrough of the real app: the scene plays itself, brisk and eased, then holds its final state.
+ * Each scene is data (timed appearances). A tiny compiler turns the timings into CSS
  * keyframes, so playback is pure CSS (transform and opacity only); React only picks the scene.
  */
-const D = 8 // seconds per scene
+const D = 4.6 // seconds per scene
+const K = 0.52 // speeds every timing up; a scene is brisk, then holds its final state
 const STATUS = { healthy: 'var(--status-healthy)', strained: 'var(--status-strained)', failed: 'var(--status-failed)' }
 type St = keyof typeof STATUS
 
@@ -21,10 +22,10 @@ const FRAME = { x: base.x - Math.max(0, (base.h * W - base.w) / 2), y: base.y, w
 const P = (id: string) => { const c = LINK_SHORTENER.components.find((k) => k.id === id)!; return gridToScreen(c.col + 1, c.row + 1) }
 const U = FRAME.w / 760 // one "UI pixel"
 
-interface Scene { title: string; body: string; cursor: [number, number, number, boolean?][]; render: (fx: Fx) => ReactNode }
+interface Scene { title: string; body: string; render: (fx: Fx) => ReactNode }
 type Fx = (from: number, to?: number) => string
 
-const pct = (t: number) => `${((t / D) * 100).toFixed(2)}%`
+const pct = (t: number) => `${(((t * K) / D) * 100).toFixed(2)}%`
 
 function Ground({ id, st, fx, from, to }: { id: string; st: St; fx: Fx; from: number; to?: number }) {
   const c = LINK_SHORTENER.components.find((k) => k.id === id)!
@@ -58,7 +59,6 @@ const app = P('app'), db = P('db'), cache = P('cache'), lb = P('lb')
 const SCENES: Scene[] = [
   {
     title: 'Open a design', body: 'Start from a design that already has a weak point, or draw your own on the grid.',
-    cursor: [[0.2, FRAME.x + FRAME.w * 0.8, FRAME.y + FRAME.h * 0.85], [2, left + 80 * U, top + 13 * U], [2.4, left + 80 * U, top + 13 * U, true], [6, app.x + 40, app.y - 10]],
     render: (fx) => (<>
       <Chip x={left} y={top} w={160} fx={fx} from={0}>Link Shortener ▾</Chip>
       <Ground id="app" st="healthy" fx={fx} from={2.6} />
@@ -67,7 +67,6 @@ const SCENES: Scene[] = [
   },
   {
     title: 'Break it', body: 'Run a one-click scenario: a traffic spike, a failed node, a slow database.',
-    cursor: [[0.2, FRAME.x + FRAME.w * 0.75, FRAME.y + FRAME.h * 0.8], [1.8, FRAME.x + FRAME.w - 150 * U, top + 13 * U], [2.2, FRAME.x + FRAME.w - 150 * U, top + 13 * U, true], [5, app.x, app.y]],
     render: (fx) => (<>
       <Chip x={FRAME.x + FRAME.w - 220 * U} y={top} w={200} fx={fx} from={0}>Scenario: traffic ×5</Chip>
       <Ground id="app" st="failed" fx={fx} from={2.6} />
@@ -79,7 +78,6 @@ const SCENES: Scene[] = [
   },
   {
     title: 'Understand it', body: 'Hover the red component. A plain sentence names the bottleneck and the cause.',
-    cursor: [[0.2, FRAME.x + FRAME.w * 0.2, FRAME.y + FRAME.h * 0.2], [2, app.x, app.y - 4], [7.5, app.x, app.y - 4]],
     render: (fx) => (<>
       <Ground id="app" st="failed" fx={fx} from={0} />
       <Card x={app.x + 46 * U} y={app.y - 120 * U} w={250} h={104} fx={fx} from={2.2}>
@@ -92,7 +90,6 @@ const SCENES: Scene[] = [
   },
   {
     title: 'Fix it', body: 'Scale the component up, add an instance, and watch the error rate fall in real time.',
-    cursor: [[0.2, app.x + 160 * U, app.y - 80 * U], [1.8, app.x + 150 * U, app.y + 40 * U], [2.3, app.x + 150 * U, app.y + 40 * U, true], [3.2, app.x + 150 * U, app.y + 40 * U, true], [6.5, app.x + 40 * U, app.y + 120 * U]],
     render: (fx) => (<>
       <Ground id="app" st="failed" fx={fx} from={0} to={3.6} />
       <Ground id="app" st="healthy" fx={fx} from={3.6} />
@@ -107,7 +104,6 @@ const SCENES: Scene[] = [
   },
   {
     title: 'Compare two designs', body: 'Keep the version you like. Compare cost and failure side by side before you commit.',
-    cursor: [[0.2, FRAME.x + FRAME.w * 0.3, FRAME.y + FRAME.h * 0.3], [2, FRAME.x + FRAME.w * 0.62, FRAME.y + FRAME.h * 0.5], [2.4, FRAME.x + FRAME.w * 0.62, FRAME.y + FRAME.h * 0.5, true], [6, FRAME.x + FRAME.w * 0.7, FRAME.y + FRAME.h * 0.72]],
     render: (fx) => {
       const x0 = FRAME.x + FRAME.w * 0.2, y0 = FRAME.y + FRAME.h * 0.22
       return (
@@ -128,7 +124,6 @@ const SCENES: Scene[] = [
   },
   {
     title: 'Find the limit', body: 'One button finds the traffic level where it breaks and which component gives out first.',
-    cursor: [[0.2, FRAME.x + FRAME.w * 0.8, FRAME.y + FRAME.h * 0.85], [1.8, left + 70 * U, top + 13 * U], [2.2, left + 70 * U, top + 13 * U, true], [6, app.x, app.y]],
     render: (fx) => (<>
       <Chip x={left} y={top} w={150} fx={fx} from={0}>Find capacity</Chip>
       <Ground id="app" st="strained" fx={fx} from={4.4} />
@@ -141,23 +136,20 @@ const SCENES: Scene[] = [
   },
 ]
 
-/** Builds the keyframes for every appearance and cursor path, once per scene. */
+/** Builds the keyframes for every appearance, once per scene. */
 function compile(scene: Scene) {
   const rules = new Map<string, string>()
   const fx: Fx = (from, to) => {
     const name = `wt-${String(from).replace('.', '_')}-${to === undefined ? 'x' : String(to).replace('.', '_')}`
     if (!rules.has(name)) {
-      const a = pct(from), b = pct(from + 0.25)
-      const out = to === undefined ? '' : `${pct(to)}{opacity:1}${pct(to + 0.25)}{opacity:0}`
-      rules.set(name, `@keyframes ${name}{0%,${a}{opacity:0}${b}{opacity:1}${out}100%{opacity:${to === undefined ? 1 : 0}}}.${name}{opacity:0;animation:${name} ${D}s linear both}`)
+      const a = pct(from), b = pct(from + 0.3)
+      const out = to === undefined ? '' : `${pct(to)}{opacity:1}${pct(to + 0.3)}{opacity:0}`
+      rules.set(name, `@keyframes ${name}{0%,${a}{opacity:0}${b}{opacity:1}${out}100%{opacity:${to === undefined ? 1 : 0}}}.${name}{opacity:0;animation:${name} ${D}s cubic-bezier(.22,1,.36,1) both}`)
     }
     return name
   }
   const body = scene.render(fx)
-  const c = scene.cursor
-  const kf = c.map(([t, x, y]) => `${pct(t)}{transform:translate(${x.toFixed(1)}px,${y.toFixed(1)}px)}`).join('')
-  const clicks = c.filter((p) => p[3])
-  return { body, css: [...rules.values()].join('') + `@keyframes wt-cur{0%{transform:translate(${c[0][1]}px,${c[0][2]}px)}${kf}100%{transform:translate(${c[c.length - 1][1]}px,${c[c.length - 1][2]}px)}}`, clicks }
+  return { body, css: [...rules.values()].join('') }
 }
 
 export function Walkthrough() {
@@ -183,8 +175,7 @@ export function Walkthrough() {
   }, [i, seen, reduced])
 
   const scene = SCENES[i]
-  const { body, css, clicks } = useMemo(() => compile(scene), [scene])
-  const k = 22 * U
+  const { body, css } = useMemo(() => compile(scene), [scene])
 
   return (
     <section id="how-it-works" ref={root} className="py-20 sm:py-28">
@@ -208,12 +199,10 @@ export function Walkthrough() {
           <div>
             <div className="panel-solid iso-grid overflow-hidden">
               <div className="relative" style={{ aspectRatio: `${FRAME.w} / ${FRAME.h}` }}>
-                <IsoDesign design={LINK_SHORTENER} frame={FRAME} labels packets className="absolute inset-0 h-full w-full" title="Animated walkthrough of CloudSim: a cursor opens a design, runs a traffic spike, reads the bottleneck, scales it up and finds the capacity limit." />
+                <IsoDesign design={LINK_SHORTENER} frame={FRAME} labels packets className="absolute inset-0 h-full w-full" title="Animated walkthrough of CloudSim: it opens a design, runs a traffic spike, reads the bottleneck, scales it up and finds the capacity limit." />
                 <svg key={i} viewBox={`${FRAME.x} ${FRAME.y} ${FRAME.w} ${FRAME.h}`} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
-                  <style>{css + `.wt-cur{animation:wt-cur ${D}s ease-in-out both}.wt-ring{opacity:0;transform-box:fill-box;transform-origin:center}@keyframes wt-ring{0%{opacity:.7;transform:scale(.2)}100%{opacity:0;transform:scale(1)}}@media (prefers-reduced-motion: reduce){.wt-cur{animation:none;transform:translate(${scene.cursor.at(-1)![1]}px,${scene.cursor.at(-1)![2]}px)}}`}</style>
+                  <style>{css + `@media (prefers-reduced-motion: reduce){[class^="wt-"]{animation:none!important;opacity:1!important}}`}</style>
                   {body}
-                  {clicks.map(([t, x, y], n) => <circle key={n} className="wt-ring" cx={x} cy={y} r={k * 1.5} fill="none" stroke="var(--bp-accent)" strokeWidth={2 * U} style={{ animation: `wt-ring .6s ease-out ${t}s both` }} />)}
-                  <g className="wt-cur"><path d="M0 0 L0 22 L6 17 L10 26 L14 24 L10 16 L18 16 Z" transform={`scale(${U * 2.1})`} fill="var(--bp-text)" stroke="#fff" strokeWidth={1.4} strokeLinejoin="round" /></g>
                 </svg>
               </div>
             </div>
