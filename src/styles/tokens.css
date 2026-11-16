@@ -1,15 +1,17 @@
-/* Design tokens, copied verbatim from the app (app/src/styles/tokens.css).
-   Keep these in sync with the app: same colours, radii, timings and easing, so the two feel like one product.
+/* Design tokens, from the landing palette: blue, lime, platinum, chinese black, white and gray.
+   Timings and easing match the app. Status colours keep their meaning: green, amber and red only ever mean healthy, strained, failed.
    The status colours keep their meaning here too: green, amber and red only ever mean healthy, strained, failed. */
 :root {
   color-scheme: light;
-  --bp-bg: #f2f6fb;        /* drafting paper */
+  --bp-bg: #ebebe9;        /* platinum */
   --bp-surface: #ffffff;
-  --bp-grid: #3a7bd5;
-  --bp-line: #1f4f8a;      /* ink */
-  --bp-text: #10243e;
-  --bp-text-dim: #5a7089;
-  --bp-accent: #0b7fd1;
+  --bp-grid: #131314;
+  --bp-line: #131314;      /* ink: chinese black */
+  --bp-text: #131314;
+  --bp-text-dim: #5b5b5c;  /* the palette's #797979 darkened for body-text contrast on platinum */
+  --bp-gray: #797979;
+  --bp-accent: #2f31f5;    /* blue */
+  --bp-highlight: #dbf059; /* lime */
 
   --status-healthy: #12a36a;
   --status-strained: #d98a0b;
