@@ -19,7 +19,6 @@ export const NAV = [
   { href: '#use-cases', label: 'Use cases' },
   { href: '#how-it-works', label: 'How it works' },
   { href: '#features', label: 'Features' },
-  { href: '#model', label: 'The model' },
 ] as const
 
 export const USE_CASES = [
